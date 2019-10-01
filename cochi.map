@@ -1,0 +1,365 @@
+#
+# Mapfile - CodeGeo
+#
+
+MAP
+	NAME 'cochi'
+	IMAGETYPE PNG
+	#EXTENT -73.9913940429688 -33.7520141601562 -32.3924560546875 5.27179002761841
+	EXTENT 635595.8379650971619412 1093904.4830193680245429 646898.5977836237289011 1111205.3150034809950739
+	UNITS METERS
+	SIZE 900 900
+	SHAPEPATH      "./data/"
+	FONTSET 'C:/ms4w/apps/codegeo/etc/fonts.txt'
+	SYMBOLSET 'C:/ms4w/apps/codegeo/etc/symbols.txt'
+	CONFIG "MS_ERRORFILE" "/ms4w/tmp/ms_error.txt"
+	DEBUG 5
+
+#
+# Definição da projeção do mapa
+#
+	
+	PROJECTION
+		"init=epsg:32643"
+	END
+	
+#
+# Formato de imagem que utiliza a biblioteca GD
+#
+	
+	
+
+#
+# Definição WEB
+#
+	
+	WEB
+		TEMPLATE void
+		IMAGEPATH "/ms4w/tmp/ms_tmp/"
+		IMAGEURL "/ms_tmp/"
+		METADATA
+			"wms_title"          			"WMS PNG CodeGeo"
+			"wms_onlineresource" 			"http://localhost/cgi-bin/mapserv.exe?map=/ms4w/apps/codegeo/cochi.map"
+			 "wms_srs"   		"EPSG:4326 EPSG:3857 EPSG:32643"
+			"wms_abstract"       			"Serviço WMS PNG CodeGeo."
+			"ows_enable_request" 			"*"
+			 "wms_enable_request"  "*"
+			
+			
+		END
+	END
+
+#
+# Camada de Estados do Brasil
+#
+QUERYMAP    
+      STATUS on          
+      STYLE hilite            
+	  COLOR 255 255 0         
+	
+END 
+
+
+  LAYER
+	
+      NAME "TREES"
+      STATUS ON
+      TYPE POINT
+      DATA "EFM_Trees_Locations.shp"
+	  
+	    PROJECTION
+        "init=epsg:32643"   ##recommended
+      END
+	  
+
+  CLASS
+        
+       STYLE
+        SYMBOL "circle"
+         OUTLINECOLOR 50 50 250 
+      COLOR 255 0 255	
+      END #STYLE
+	  
+
+    END #CLASS
+END
+
+	 
+
+
+LAYER
+   NAME "LANDMARKS"
+   STATUS ON
+   TYPE POINT
+   DATA "EFM_Landmarks.shp"
+	 METADATA
+        "wms_title" "LANDMARKS"
+        "wms_include_items" "all"
+	    "wms_enable_request" "*"   
+	    "gml_include_items" "all"
+     END
+  
+	  
+	  PROJECTION
+        "init=epsg:32643"   ##recommended
+      END
+	  
+	  
+
+    CLASS
+	   NAME "LAND 1"
+       EXPRESSION ("[LM_TYPE]"='RESTARUANTS')
+          TEMPLATE "C:/ms4w/apps/codegeo/templates/lakespy2.html"
+       STYLE
+        SYMBOL "REST"
+        
+      END #STYLE
+	  END
+	  
+	  
+    CLASS
+	   NAME "LAND 2"
+       EXPRESSION ("[LM_TYPE]"='BANKS')
+          TEMPLATE "C:/ms4w/apps/codegeo/templates/lakespy2.html"
+       STYLE
+        SYMBOL "bank"
+        
+      END #STYLE
+	  END
+	  
+	    CLASS
+	   NAME "LAND 3"
+       EXPRESSION ("[LM_TYPE]"='HOSPITALS')
+          TEMPLATE "C:/ms4w/apps/codegeo/templates/lakespy2.html"
+       STYLE
+        SYMBOL "hosp"
+        
+      END #STYLE
+
+    END #CLASS
+	
+	   CLASS
+	   NAME "LAND 4"
+       EXPRESSION ("[LM_TYPE]"='EDUCATIONS')
+          TEMPLATE "C:/ms4w/apps/codegeo/templates/lakespy2.html"
+       STYLE
+        SYMBOL "EDU"
+        
+      END #STYLE
+
+    END #CLASS
+	
+	   CLASS
+	   NAME "LAND 4"
+       EXPRESSION ("[LM_TYPE]"='RESTARUANTS')
+          TEMPLATE "C:/ms4w/apps/codegeo/templates/lakespy2.html"
+       STYLE
+        SYMBOL "REST"
+        
+      END #STYLE
+
+    END #CLASS
+	
+	 CLASS
+          TEMPLATE "C:/ms4w/apps/codegeo/templates/lakespy2.html"
+       STYLE
+        SYMBOL "circle"
+         OUTLINECOLOR 50 50 250 
+      COLOR 255 0 255	
+      END #STYLE
+	  
+
+    END #CLASS
+  
+    HEADER "C:/ms4w/apps/codegeo/templates/lakespy2_header.html"
+    FOOTER "C:/ms4w/apps/codegeo/templates/lakespy2_footer.html"
+END
+	 
+  
+  LAYER
+	 NAME "curves_poly"
+	  METADATA
+    "wms_title" "BOUNDRIES"
+    "wms_include_items" "all"
+  END
+ 
+  STATUS ON
+  TYPE POLYGON
+    DATA "GVMC_wards.shp"
+   ## DATA "VV.shp"
+ ##  DATA "E:/Disaster/data/GVMC_wards.shp"
+  ##DATA "C:/Users/suresh.k/data/shapefile/Flood_and_Hill_Area.shp"
+  CLASS
+    STYLE
+      OUTLINECOLOR 50 50 250 
+      COLOR 255 0 255	
+      ANTIALIAS true
+    END
+  END
+END
+	
+
+	LAYER
+	 NAME "COCHIBOUND"
+	  METADATA
+    "wms_title" "COCHIBOUND"
+    "wms_include_items" "all"
+	 "wms_enable_request" "*"   
+  END
+ 
+  STATUS ON
+  TYPE POLYGON
+   DATA "Ward_Boundary's_With_Names.shp"
+   
+  
+    CLASS
+       NAME "Symbol 3"
+      
+    STYLE
+      OUTLINECOLOR 50 50 250 
+      COLOR 255 255 77	
+      ANTIALIAS true
+	  OPACITY 60
+    END
+  END
+  
+END
+
+
+
+
+	  	   LAYER
+	 NAME "ROADS"
+	  METADATA
+    "wms_title" "KohchinRoads"
+    "wms_include_items" "all"
+  END
+ 
+  STATUS ON
+  TYPE LINE
+   DATA "EFM_Road_Centerline.shp"
+ 
+  CLASS
+    STYLE
+      OUTLINECOLOR 50 50 250 
+      COLOR 255 0 255	
+      ANTIALIAS true
+    END
+	 LABEL
+        COLOR 0 0 0
+        OUTLINECOLOR 225 225 0
+        #MINDISTANCE 500
+        MINFEATURESIZE AUTO
+        #OFFSET 0 0
+        #ANGLE AUTO
+        TYPE TRUETYPE
+        FONT arial
+        SIZE 2
+        #ANTIALIAS TRUE
+        #POSITION CC
+        #PARTIALS FALSE
+    END 
+  END
+END
+
+
+  LAYER
+	
+      NAME "BUILDINGS"
+      STATUS ON
+      TYPE POLYGON
+      DATA "EFM_Buildings.shp"
+
+  CLASS
+    STYLE
+       OUTLINECOLOR 255 0 0
+       COLOR 0 51 153	
+       ANTIALIAS true
+    END
+  END
+END
+
+
+
+  LAYER
+	
+      NAME "WATERBODIES"
+      STATUS ON
+      TYPE POLYGON
+      DATA "Water_Bodies.shp"
+
+  CLASS
+    STYLE
+       OUTLINECOLOR 153 204  255
+       COLOR 0 51 153	
+       ANTIALIAS true
+    END
+  END
+END
+	 
+	 
+	   LAYER
+	
+      NAME "PLOTBOUNDRIES"
+      STATUS ON
+      TYPE LINE
+      DATA "Plot_Boundaries_F.shp"
+
+  CLASS
+    STYLE
+       OUTLINECOLOR 153 204  255
+       COLOR 153  255  102	
+       ANTIALIAS true
+    END
+  END
+END
+	 
+	 
+
+  LAYER
+	 NAME "KOCHI_B_NAMES"
+	  METADATA
+    "wms_title" "GvmcBoundries"
+    "wms_include_items" "all"
+  END
+ 
+  STATUS ON
+  TYPE POLYGON
+   DATA "Ward_Boundary's_With_Names.shp"
+  ## FILTER (( [Ward_No] =53 ))
+  ## FILTERITEM "Ward_No"
+   ##FILTER /53/
+
+  LABELITEM "Ward_No"
+  CLASS
+    NAME "KOCHI BOUNDRIES"
+    STYLE
+      OUTLINECOLOR 50 50 250 
+   ##  COLOR 153 255 153
+	COLOR 230 204 255
+      WIDTH 0.6
+	  OPACITY 60
+	  
+    END
+    LABEL
+      FONT sans
+      TYPE truetype
+      POSITION AUTO     
+      PARTIALS FALSE
+      BUFFER 5
+      SIZE 5 
+      COLOR 75 75 75
+      MINFEATURESIZE 10
+    END     
+  END
+  
+
+	
+	
+  END
+END
+
+ 
+
+	
+END
